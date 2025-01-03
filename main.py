@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from typing import List, Optional
 
 app = FastAPI()
@@ -7,7 +7,7 @@ app = FastAPI()
 class CoffeeTTK:
     def __init__(self, id, name, ingredients, preparation, serving_size):
         self.id = id
-        self.name = name
+        self.coffe_name = name
         self.ingredients = ingredients
         self.preparation = preparation
         self.serving_size = serving_size
@@ -135,29 +135,36 @@ class CoffeeRep:
             )
         )
 
-
 coffee_rep = CoffeeRep()
 
-
-@app.get("/coffeettk/")
-def get_all_coffeettk():
-    return coffeettk
-
-
-@app.get("/coffeettk/{ttkname}")
-def get_coffeettk_by_name(ttkname: str):
-    for ttk in coffeettk:
-        if ttk.name.lower() == ttkname.lower():
-            return ttk
-    return {"error": "Recipe not found"}
+@app.get("/coffeerep/")
+def get_coffee():
+    return coffee_rep.coffee
 
 
-@app.get("/coffeettk/add")
+
+@app.get("/coffeerep/{drink_id}")
+def get_coffee_by_id(drink_id: int):
+    for coffee in coffee_rep.coffee:
+        if coffee.id == drink_id:
+            return {
+                "id": coffee.id,
+                "coffee_name": coffee.coffe_name,
+                "ingredients": coffee.ingredients,
+                "preparation": coffee.preparation,
+                "serving_size": coffee.serving_size,
+            }
+    raise HTTPException(status_code=404, detail="Drink not found")
+
+
+@app.post("/coffeerep/add")
 def add_coffeettk(name: str, ingredients: str, preparation: str, serving_size: str):
     ingredients_list = ingredients.split(",")
-    new_coffeettk = CoffeeTTK(name, ingredients_list, preparation, serving_size)
+    new_id = len(coffeettk)
+    new_coffeettk = CoffeeTTK(new_id, name, ingredients_list, preparation, serving_size)
     coffeettk.append(new_coffeettk)
     return {"message": "Recipe added successfully", "recipe": new_coffeettk}
+
 
 
 @app.get("/coffeettk/delete/{ttkname}")
