@@ -26,76 +26,17 @@ users = []
 class CoffeeRep:
     def __init__(self):
         self.coffee = []
-        self.coffee.append(CoffeeTTK(0, "Espresso", ["coffe beans 19gr", "water 40ml"], ))
+        self.coffee.append(CoffeeTTK(0, "Espresso", ["coffe beans 19gr", "water 40ml"], "Working at a 1:2 ratio, serve with a glass of water.", "40ml"))
+        self.coffee.append(CoffeeTTK(1, "Americano", ["espresso 19gr", "water 150ml"], "Add hot water to espresso, suggest diluting with cold water or adding ice.", "180ml"))
+        self.coffee.append(CoffeeTTK(2, "Cappucino", ["espresso 19gr", "milk 280ml"], "We add foamed milk to the espresso and draw latte art.", "350ml"))
+        self.coffee.append(CoffeeTTK(3, "Latte", ["espresso 10gr", "milk 280ml"], "We add foamed milk to the espresso and draw latte art.", "350ml"))
+        self.coffee.append(CoffeeTTK(4, "Flat White", ["espresso 19gr", "milk 180ml"], "Pour thin milk foam into espresso, drawing latte art.", "250ml"))
+        self.coffee.append(CoffeeTTK(5, "Raspberry cocoa with marshmallows", ["cocoa 30gr", "milk 280ml", "marshmallow 15gr", "dried raspberriies 1gr"], "Add cocoa to a large pitcher, whisk. Decorate the top with marshmallows and dried raspberries.", "350ml"))
+        self.coffee.append(CoffeeTTK(6, "Chocolate mint cappuccino", ["espresso 19gr", "mint syrup 10ml", "cocoa 10gr", "milk 280ml"], "Stir 10g cocoa into espresso, pour 280ml foamed milk with 10ml mint syrup on top.", "350ml"))
+        self.coffee.append(CoffeeTTK(7, "Raf nut condensed milk", ["espresso 10gr", "condensed milk 30gr", "syrup walnut 10gr", "cream 280gr"], "Stir condensed milk and nut syrup into espresso, add cream 280g and whip.", "350ml"))
+        self.coffee.append(CoffeeTTK(8, "Americano with Tiger Vermouth", ["espresso 19gr", "hot water 230ml", "honey 20gr", "bush jam 10gr", "concentrate Tiger Vermouth 30gr"], "In a cup add Tiger Vermouth concentrate, honey, 3 cones, pour hot water, stir and top with espresso.", "350ml"))
+        self.coffee.append(CoffeeTTK(9, "Pumpkin matcha", ["matcha 2gr", "pumpkin syrup 20ml", "dried pumpkin 3gr", "milk 280gr"], "In 280gm milk, whisk 20ml pumpkin syrup, pour the stirred matcha 2gm in a dot or strip and draw a sprig on top. Decorate the top with a couple of pieces of dried pumpkin.", "350ml"))
 
-CoffeeTTK(
-    name = "Espresso"
-    ingredients = ["coffe beans 19gr", "water 40ml"]
-    preparation = "Working at a 1:2 ratio, serve with a glass of wate."
-    serving_size = "40ml"
-),
-
-CoffeeTTK(
-    name = "Americano"
-    ingredients = ["espresso 19gr", "water 150ml"]
-    preparation = "Add hot water to espresso, suggest diluting with cold water or adding ice."
-    serving_size = "180ml"
-),
-
-CoffeeTTK(
-    name = "Cuppucino"
-    ingredients = ["espresso 19gr", "milk 280ml"]
-    preparation = "We add foamed milk to the espresso and draw latte art."
-    serving_size = "350ml"
-), 
-
-CoffeeTTK(
-    name = "Latte"
-    ingredients = ["espresso 10gr", "milk 280ml"]
-    preparation = "We add foamed milk to the espresso and draw latte art."
-    serving_size = "350ml"
-),
-
-CoffeeTTK(
-    name = "Flat White"
-    ingredients = ["espresso 19gr", "milk 180ml"]
-    preparation = "Pour thin milk foam into espresso, drawing latte art. "
-    serving_size = "250ml"
-),
-
-CoffeeTTK(
-name = "Raspberry cocoa with marshmallows"
-ingredients = ["cocoa 30gr", "milk 280ml", "marshmallow 15gr", "dried raspberriies 1gr"]
-preparation = "Add cocoa to a large pitcher, whisk. Decorate the top with marshmallows and dried raspberries."
-serving_size = "350ml"
-),
-
-CoffeeTTK(
-name = "Chocolate mint cappuccino"
-ingredients = ["espresso 19gr", "mint syrup 10ml", "cocoa 10gr", "milk 280ml"]
-preparation = "Stir 10g cocoa into espresso, pour 280ml foamed milk with 10ml mint syrup on top."
-serving_size = "350ml"
-),
-
-CoffeeTTK(
-name = "Raf nut condensed milk"
-ingredients = ["espresso 10gr", "condensed milk 30gr", "syrup walnut 10gr", "cream 280gr"]
-preparation = "Stir condensed milk and nut syrup into espresso, add cream 280g and whip."
-serving_size = "350ml"
-),
-CoffeeTTK(
-name = "Americano with Tiger Vermouth"
-ingredients = ["espresso 19gr", "hot water 230ml", "honey 20gr", "bush jam 10gr", "concentrate Tiger Vermouth 30gr"]
-preparation = "In a cup add Tiger Vermouth concentrate, honey, 3 cones, pour hot water, stir and top with espresso."
-serving_size = "350ml"
-),
-
-CoffeeTTK(
-name = "Pumpkin matcha"
-ingredients = ["matcha 2gr", "pumpkin syrup 20ml", "dried pumpkin 3gr", "milk 280gr"]
-preparation = "In 280gm milk, whisk 20ml pumpkin syrup, pour the stirred matcha 2gm in a dot or strip and draw a sprig on top. Decorate the top with a couple of pieces of dried pumpkin."
-serving_size = "350ml"
-)
 
 @app.get("/coffeettk/")
 def get_all_coffeettk():
