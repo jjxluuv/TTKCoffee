@@ -37,6 +37,7 @@ class CoffeeRep:
         self.coffee.append(CoffeeTTK(8, "Americano with Tiger Vermouth", ["espresso 19gr", "hot water 230ml", "honey 20gr", "bush jam 10gr", "concentrate Tiger Vermouth 30gr"], "In a cup add Tiger Vermouth concentrate, honey, 3 cones, pour hot water, stir and top with espresso.", "350ml"))
         self.coffee.append(CoffeeTTK(9, "Pumpkin matcha", ["matcha 2gr", "pumpkin syrup 20ml", "dried pumpkin 3gr", "milk 280gr"], "In 280gm milk, whisk 20ml pumpkin syrup, pour the stirred matcha 2gm in a dot or strip and draw a sprig on top. Decorate the top with a couple of pieces of dried pumpkin.", "350ml"))
 
+coffee_rep = CoffeeRep()
 
 @app.get("/coffeettk/")
 def get_all_coffeettk():
@@ -55,17 +56,6 @@ def add_coffeettk(name: str, ingredients: str, preparation: str, serving_size: s
     new_coffeettk = CoffeeTTK(name, ingredients_list, preparation, serving_size)
     coffeettk.append(new_coffeettk)
     return {"message": "Recipe added successfully", "recipe": new_coffeettk}
-
-@app.get("/coffeettk/update/{ttkname}")
-def update_coffeettk(ttkname: str, ingredients: str, preparation: str, serving_size: str):
-    for ttk in coffeettk:
-        if ttk.name.lower() == ttkname.lower():
-            ttk.ingredients = ingredients.split(',')
-            ttk.
-preparation = preparation
-            ttk.serving_size = serving_size
-            return {"message": "Recipe updated successfully", "recipe": ttk}
-    return {"error": "Recipe not found"}
 
 @app.get("/coffeettk/delete/{ttkname}")
 def delete_coffeettk(ttkname: str):
