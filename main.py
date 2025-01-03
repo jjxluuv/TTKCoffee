@@ -137,13 +137,13 @@ class CoffeeRep:
 
 coffee_rep = CoffeeRep()
 
-@app.get("/coffeerep/")
+@app.get("/coffeerep/", tags=["Кофе"], summary="Всё кофе", description="Возвращает весь кофе в api")
 def get_coffee():
     return coffee_rep.coffee
 
 
 
-@app.get("/coffeerep/{drink_id}")
+@app.get("/coffeerep/{drink_id}", tags=["Кофе"], summary="Вытащить кофе по id", description="Позволяет вытащить конкретной кофе по введеному id")
 def get_coffee_by_id(drink_id: int):
     for coffee in coffee_rep.coffee:
         if coffee.id == drink_id:
@@ -157,69 +157,47 @@ def get_coffee_by_id(drink_id: int):
     raise HTTPException(status_code=404, detail="Drink not found")
 
 
-@app.post("/coffeerep/add")
+@app.post("/coffeerep/", tags=["Кофе"], summary="Добавить кофе", description="Позволяет добавить в api кастомный кофе, почти автоматизация)")
 def add_coffeettk(name: str, ingredients: str, preparation: str, serving_size: str):
-    ingredients_list = ingredients.split(",")
-    new_id = len(coffeettk)
-    new_coffeettk = CoffeeTTK(new_id, name, ingredients_list, preparation, serving_size)
-    coffeettk.append(new_coffeettk)
-    return {"message": "Recipe added successfully", "recipe": new_coffeettk}
+    ingredients_list = ingredients.split(", ")
+    if coffee_rep.coffee:
+        new_id = max([coffee.id for coffee in coffee_rep.coffee]) + 1
+    else:
+        new_id = 0
+    new_coffee = CoffeeTTK(new_id, name, ingredients_list, preparation, serving_size)
+    coffee_rep.coffee.append(new_coffee)
+    return {"message": "Recipe added successfully", "recipe": vars(new_coffee)}
 
+@app.put("/coffeerep/{drink_id}", tags=["Кофе"], summary="Изменить имеющийся кофе", description="Позволяет изменить свойства существующего кофе в API")
+def change_coffeettk(
+    drink_id: int,
+    name: Optional[str] = None,
+    ingredients: Optional[str] = None,
+    preparation: Optional[str] = None,
+    serving_size: Optional[str] = None
+):
+    for coffee in coffee_rep.coffee:
+        if coffee.id == drink_id:
+            if name is not None:
+                coffee.coffe_name = name
+            if ingredients is not None:
+                coffee.ingredients = ingredients.split(", ")
+            if preparation is not None:
+                coffee.preparation = preparation
+            if serving_size is not None:
+                coffee.serving_size = serving_size
+            return {"message": "Recipe updated successfully", "recipe": vars(coffee)}
+    raise HTTPException(status_code=404, detail="Drink not found")
 
-
-@app.get("/coffeettk/delete/{ttkname}")
-def delete_coffeettk(ttkname: str):
-    for ttk in coffeettk:
-        if ttk.name.lower() == ttkname.lower():
-            coffeettk.remove(ttk)
-            return {"message": "Recipe deleted successfully"}
-    return {"error": "Recipe not found"}
-
-
-@app.get("/coffeettk/info/{ttkname}")
-def get_info_coffeettk(ttkname: str):
-    for ttk in coffeettk:
-        if ttk.name.lower() == ttkname.lower():
-            return {
-                "name": ttk.name,
-                "ingredients": ttk.ingredients,
-                "preparation": ttk.preparation,
-                "serving_size": ttk.serving_size,
-            }
-    return {"error": "Recipe not found"}
-
-
-@app.get("/coffeettk/filter")
-def filter_coffeettk(ingredient: Optional[str] = None):
-    if ingredient:
-        filtered = [
-            ttk
-            for ttk in coffeettk
-            if ingredient.lower() in [i.lower() for i in ttk.ingredients]
-        ]
-        return filtered
-    return coffeettk
-
-
-@app.get("/users/")
-def get_all_users():
-    return users
-
-
-@app.get("/users/add")
-def add_user(name: str, email: str):
-    new_user = User(name, email)
-    users.append(new_user)
-    return {"message": "Coffee lover added successfully", "user": new_user}
-
-
-@app.get("/users/{user_id}/borrow/{ttkname}")
-def borrow_drink(user_id: int, ttkname: str):
-    user = next((u for u in users if u.id == user_id), None)
-    if not user:
-        return {"error": "Coffee lover not found"}
-    drink = next((d for d in coffeettk if d.name.lower() == ttkname.lower()), None)
-    if not drink:
-        return {"error": "Drink not found"}
-    user.borrowed_drinks.append(drink)
-    return {"message": f"{user.name} borrowed {drink.name}"}
+@app.delete("/cofeerep/{drink_id}", tags=["Кофе"], summary="Удалить кофе из api", description="Тут точно нужно описание?")
+def delete_coffeettk(
+    drink_id: int
+):
+    for coffee in coffee_rep.coffee:
+        if coffee.id == drink_id:
+            coffee.coffe_name = None
+            coffee.ingredients = None
+            coffee.preparation = None
+            coffee.serving_size = None
+            return {"message": "Recipe deleted successfully", "recipe": vars(coffee)}
+    raise HTTPException(status_code=404, detail="Drink not found")
