@@ -25,10 +25,10 @@ class User:
 class UserRep:
     def __init__(self):
         self.user = []
-        self.user.append(User(0, "Ваня", "ваня@mail.ru", None, None))
-        self.user.append(User(1, "Лох", "Лох@mail.ru", None, None))
-        self.user.append(User(2, "штрих", "штрих@mail.ru", None, None))
-        self.user.append(User(3, "штемпяра", "штемпяра@mail.ru", None, None))
+        self.user.append(User(0, "ivan", "ivan@mail.ru", None, None))
+        self.user.append(User(1, "dima", "dima@mail.ru", None, None))
+        self.user.append(User(2, "nassko", "nassko@mail.ru", None, None))
+        self.user.append(User(3, "dampo", "dampo@mail.ru", None, None))
 
 
 coffeettk = []
@@ -227,7 +227,7 @@ def change_coffeettk(
     "/cofeerep/{drink_id}",
     tags=["Кофе"],
     summary="Удалить кофе из api",
-    description="Тут точно нужно описание?",
+    description="Удалить кофе из api",
 )
 def delete_coffeettk(drink_id: int):
     for coffee in coffee_rep.coffee:
@@ -244,7 +244,7 @@ def delete_coffeettk(drink_id: int):
     "/users/",
     tags=["Клиенты"],
     summary=["Посмотреть всю базу клиентов"],
-    description="Для кого я это вообще пишу...",
+    description="Просмотр всех клиентов",
 )
 def get_users():
     return user_rep.user
@@ -253,8 +253,8 @@ def get_users():
 @app.post(
     "/users/",
     tags=["Клиенты"],
-    summary=["Добавить нового слоняру"],
-    description="Добро пожаловать в бойцовский клуб",
+    summary=["Добавить нового клиента"],
+    description="Добро пожаловать",
 )
 def add_user(
     name: str,
@@ -275,7 +275,7 @@ def add_user(
     "/users/{user_id}/buy/{drink_id}",
     tags=["Клиенты"],
     summary="Добавить покупку клиентом",
-    description="Тут был Ян!",
+    description="Покупка будет добавлена",
 )
 def add_buying(user_id: int, drink_id: int):
     user = next((user for user in user_rep.user if user.id == user_id), None)
@@ -339,7 +339,7 @@ def add_returning(user_id: int, drink_id: int):
     "/users/{user_id}",
     tags=["Клиенты"],
     summary="Вытащить конкретного пользователя",
-    description="Передаю привет маме семена! Я ее рот ебал!",
+    description="Вытащю конекретного пользователя",
 )
 def get_user_by_id(user_id: int):
     user = next((user for user in user_rep.user if user.id == user_id), None)
